@@ -90,11 +90,11 @@ public class TL_BossFSM : MonoBehaviour {
         transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), new Vector2(MoveLimit, transform.position.y), MoveSpeed * Time.deltaTime);
 
         //If the NPC moves towards the sides of the screen then change the move limit
-        if (transform.position.x <= -8f)
+        if (LevelManagerScript.ScreenPosConverter(transform.position).x <= -8f)
         {
             MoveLimit = 8f;
         }
-        else if (transform.position.x >= 8f)
+        else if (LevelManagerScript.ScreenPosConverter(transform.position).x >= 8f)
         {
             MoveLimit = -8f;
         }
