@@ -9,7 +9,7 @@ public class TL_RewardManager : MonoBehaviour {
     public float MoveSpeedDuration;
     public float DefenseDuration;
     public float DisplayDuration;
-    public float DurabilityDuration;
+    public float OverheatDuration;
     public float GradualTime = 30f;
     private float LerpDuration = 0;
 
@@ -40,7 +40,7 @@ public class TL_RewardManager : MonoBehaviour {
     public Text RewardDisplay;
     public bool ToggleTimer;
     public bool UpgradedWeapons;
-    private string DurabilityText;
+    private string OverheatText;
     private string RewardDesc;
     private TL_LevelManager LMScript;
     private TL_MovePC MovementScript;
@@ -94,15 +94,15 @@ public class TL_RewardManager : MonoBehaviour {
                     GradualTime = 15f;
 
                     //Double the value of deltatime and subtract it from the countdown
-                    DurabilityDuration -= (Time.deltaTime * 2f);
+                    OverheatDuration -= (Time.deltaTime * 2f);
                 }
                 else    //If the attack speed duration is finished
                 {
                     //Subtract from deltatime to count down
-                    DurabilityDuration -= Time.deltaTime;
+                    OverheatDuration -= Time.deltaTime;
                 }
-                //Set the text to display the durability
-                DurabilityText = "Durability: " + Mathf.Floor(DurabilityDuration).ToString("F0");
+                //Set the text to display the overheat duration
+                OverheatText = "Overheat: " + Mathf.Floor(OverheatDuration).ToString("F0");
                 
                 //Add the duration for the deltatime divided by 30 seconds
                 LerpDuration += Time.deltaTime / GradualTime;
@@ -113,23 +113,23 @@ public class TL_RewardManager : MonoBehaviour {
                 GradualTime = 30f;
 
                 //Subtract from deltatime to count down
-                DurabilityDuration -= Time.deltaTime;
+                OverheatDuration -= Time.deltaTime;
 
                 //Set the text to display the durability
-                DurabilityText = "Cooldown: " + Mathf.Floor(DurabilityDuration).ToString("F0");
+                OverheatText = "Cooldown: " + Mathf.Floor(OverheatDuration).ToString("F0");
 
                 //Subtract the duration for the deltatime divided by 30 seconds
                 LerpDuration -= Time.deltaTime / GradualTime;
             }
 
-            //If the durability reaches to 0 then set it back to 30 and use it for the cooldown
-            if (DurabilityDuration <= 0f)
+            //If the overheat reaches to 0 then set it back to 30 and use it for the cooldown
+            if (OverheatDuration <= 0f)
             {
                 //Toggle the boolean
                 ToggleTimer = !ToggleTimer;
 
-                //Set the variable to 30
-                DurabilityDuration = 30f;
+                //Set the duration to 30
+                OverheatDuration = 30f;
             }
 
             //Obtain the script from the PC and activate the spread shot
@@ -282,7 +282,7 @@ public class TL_RewardManager : MonoBehaviour {
         }
         
         //If all of the durations reached 0
-        if (AttackSpeedDuration <= 0f && MoveSpeedDuration <= 0f && DefenseDuration <= 0f && DurabilityDuration <= 0f)
+        if (AttackSpeedDuration <= 0f && MoveSpeedDuration <= 0f && DefenseDuration <= 0f && OverheatDuration <= 0f)
         {
             //Display the text as blank
             DurationDisplay.text = "";
@@ -290,7 +290,7 @@ public class TL_RewardManager : MonoBehaviour {
         else
         {
             //Set the text for displaying the duration
-            DurationDisplay.text = "Duration\n" + DurabilityText;
+            DurationDisplay.text = "Duration\n" + OverheatText;
         }
     }
 

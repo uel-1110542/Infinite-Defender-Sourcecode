@@ -168,13 +168,13 @@ public class TL_LevelManager : MonoBehaviour {
         GenerateStars();
     }
 
-    public Vector3 ScreenPosConverter(Vector3 Pos)
+    public Vector3 ScreenPosConverter(Vector3 Pos, float MinValue, float MaxValue)
     {
         //Convert the world space into viewport space with the vector3 parameter
         Vector3 ViewportPoint = Camera.main.WorldToViewportPoint(Pos);
 
         //Clamp the X position
-        ViewportPoint.x = Mathf.Clamp(ViewportPoint.x, 0.05f, 0.95f);
+        ViewportPoint.x = Mathf.Clamp(ViewportPoint.x, MinValue, MaxValue);
 
         //Convert the vector3 variable from viewport space into world space and return the vector3 variable
         return Camera.main.ViewportToWorldPoint(ViewportPoint);
