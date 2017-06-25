@@ -168,18 +168,6 @@ public class TL_LevelManager : MonoBehaviour {
         GenerateStars();
     }
 
-    public Vector3 ScreenPosConverter(Vector3 Pos, float MinValue, float MaxValue)
-    {
-        //Convert the world space into viewport space with the vector3 parameter
-        Vector3 ViewportPoint = Camera.main.WorldToViewportPoint(Pos);
-
-        //Clamp the X position
-        ViewportPoint.x = Mathf.Clamp(ViewportPoint.x, MinValue, MaxValue);
-
-        //Convert the vector3 variable from viewport space into world space and return the vector3 variable
-        return Camera.main.ViewportToWorldPoint(ViewportPoint);
-    }
-
     void IntroSequence()
     {
         //If the PC hasn't spawned yet
@@ -1136,8 +1124,11 @@ public class TL_LevelManager : MonoBehaviour {
         //If the boss is still alive
         if (BossClone != null)
         {
-            //If the boss has descended to the screen
-            if (BossClone.transform.position.y == 3.5f)
+            //Converts the transform position from the viewport point to the world point
+            Vector3 ViewportPoint = Camera.main.ViewportToWorldPoint(BossClone.transform.position);
+
+            //If the boss has descended towards the camera screen
+            if (ViewportPoint.y <= 27.7f)
             {
                 //Obtain the boss' 2D box collider and enable it
                 BoxCollider2D BossCollider = BossClone.GetComponent<BoxCollider2D>();                
@@ -1161,8 +1152,8 @@ public class TL_LevelManager : MonoBehaviour {
             }
             else
             {
-                //If the boss has not descended towards the camera view then move towards the top of the screen
-                BossClone.transform.position = Vector2.MoveTowards(new Vector2(BossClone.transform.position.x, BossClone.transform.position.y), new Vector2(BossClone.transform.position.x, 3.5f), 3f * Time.deltaTime);
+                //If the boss has not descended towards the camera view then move towards the top of the screen                
+                BossClone.transform.position += Vector3.down * 3f * Time.deltaTime;
             }
         }        
     }
@@ -1238,7 +1229,7 @@ public class TL_LevelManager : MonoBehaviour {
 
             //Spawns the enemies in an sine wave motion pattern from the top of the screen
             case 4:
-                SpawnSnakeEnemy(Snake, 0f, 5.25f, 0f, -1.3f, -0.1f, -2f, 1f, false, true, false);
+                SpawnSnakeEnemy(Snake, 0f, 5f, 0f, -1.3f, -0.1f, -2f, 1f, false, true, false);
                 break;
 
             //Spawns the enemies in an arc motion pattern from the right side of the screen

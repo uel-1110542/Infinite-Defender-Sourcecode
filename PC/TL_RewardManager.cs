@@ -69,14 +69,18 @@ public class TL_RewardManager : MonoBehaviour {
 
     void Update()
     {
-        //Function for the duration of the boosts the player obtains
-        BoostManager();
+        //If the game is not over
+        if (!LMScript.GameOver)
+        {
+            //Function for the duration of the boosts the player obtains
+            BoostManager();
 
-        //Manages the rewards the player obtains
-        RewardManager();
+            //Manages the rewards the player obtains
+            RewardManager();
 
-        //Manages the cooldown for the weapons
-        WeaponCooldown();
+            //Manages the cooldown for the weapons
+            WeaponCooldown();
+        }        
     }
 
     void WeaponCooldown()

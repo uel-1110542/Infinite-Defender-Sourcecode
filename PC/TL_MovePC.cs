@@ -23,9 +23,6 @@ public class TL_MovePC : MonoBehaviour {
     public AudioSource HitSoundSource;
     public AudioSource ExplosionSoundSource;
 
-    //Level Manager
-    private TL_LevelManager LevelManagerScript;
-
     //Animator
     private Animator Explosion_Animator;
 
@@ -50,9 +47,6 @@ public class TL_MovePC : MonoBehaviour {
 
         //Obtain the sprite renderer from the gameobject
         PC_Sprite = GetComponent<SpriteRenderer>();
-
-        //Find the level manager and obtain the script
-        LevelManagerScript = GameObject.Find("LevelManager").GetComponent<TL_LevelManager>();
     }
 
 	void Update()
@@ -113,9 +107,15 @@ public class TL_MovePC : MonoBehaviour {
 
                 //Use MoveTowards to move the PC towards the converted mouse position
                 transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), new Vector2(MousePos.x, transform.position.y), MoveSpeed * Time.deltaTime);
-                
-                //Clamp the X position of the PC to prevent it from moving outside the screen
-                transform.position = LevelManagerScript.ScreenPosConverter(transform.position);
+
+                //Convert the world space into viewport space
+                Vector3 ViewportPoint = Camera.main.WorldToViewportPoint(transform.position);
+
+                //Clamp the X position
+                ViewportPoint.x = Mathf.Clamp(ViewportPoint.x, 0.05f, 0.95f);
+
+                //Convert the vector3 variable from viewport space into world space and set it to the PC's position
+                transform.position = Camera.main.ViewportToWorldPoint(ViewportPoint);
             }
 
             //If the touch screen device detects more than 1 touch on the screen          

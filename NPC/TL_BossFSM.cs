@@ -81,7 +81,7 @@ public class TL_BossFSM : MonoBehaviour {
 
             //Shooting the projectile when the state is Attack
             ShootProjectile();
-        }            
+        }
     }
 
     void MoveNPC()
@@ -89,13 +89,15 @@ public class TL_BossFSM : MonoBehaviour {
         //Move towards the sides of the screen
         transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), new Vector2(MoveLimit, transform.position.y), MoveSpeed * Time.deltaTime);
 
-        //If the NPC moves towards the sides of the screen then change the move limit
-        //The value of the converted world point must be lower than the value of the movement limit
-        if (LevelManagerScript.ScreenPosConverter(transform.position, 0.1f, 1f).x <= -7f)
+        //Convert world space into viewport space
+        Vector3 ScreenBoundaries = Camera.main.WorldToViewportPoint(transform.position);
+
+        //If the NPC moves towards the boundaries of the screen then change the move limit
+        if (ScreenBoundaries.x <= 0.1f)
         {
             MoveLimit = 8f;
         }
-        else if (LevelManagerScript.ScreenPosConverter(transform.position, 0.1f, 1f).x >= 7f)
+        else if (ScreenBoundaries.x >= 0.9f)
         {
             MoveLimit = -8f;
         }
