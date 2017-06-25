@@ -116,7 +116,7 @@ public class TL_LevelManager : MonoBehaviour {
         Prev_BaseHP = Base_HP;
 
         //Set a random number for spawning enemies
-        RandomNumber = Rerandomize(12);
+        RandomNumber = Rerandomize(13);
 
         //Obtain the script from the score manager
         ScoreManagerScript = GetComponent<TL_ScoreManager>();
@@ -335,7 +335,7 @@ public class TL_LevelManager : MonoBehaviour {
         BossWave = -1;
         PrevLevel = 0;
         SpawnCooldown = 1f;
-        RandomNumber = Rerandomize(12);
+        RandomNumber = Rerandomize(13);
 
         //Reset timers
         Timer = 0;
@@ -689,7 +689,7 @@ public class TL_LevelManager : MonoBehaviour {
                 else
                 {
                     //Re-randomize a number
-                    RandomNumber = Rerandomize(12);
+                    RandomNumber = Rerandomize(13);
                 }
                 //Resume spawning
                 HasSpawningStopped = false;
@@ -1229,7 +1229,7 @@ public class TL_LevelManager : MonoBehaviour {
 
             //Spawns the enemies in an sine wave motion pattern from the top of the screen
             case 4:
-                SpawnSnakeEnemy(Snake, 0f, 5f, 0f, -1.3f, -0.1f, -2f, 1f, false, true, false);
+                SpawnSnakeEnemy(Snake, 0f, 5.3f, 0f, -1.3f, -0.1f, -2f, 1f, false, true, false);
                 break;
 
             //Spawns the enemies in an arc motion pattern from the right side of the screen
