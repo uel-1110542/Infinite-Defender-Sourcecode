@@ -20,12 +20,6 @@ public class TL_LevelManager : MonoBehaviour {
     public bool HasBossSpawned;
     private string BossName;
 
-    //Environment
-    [Header("Environment")]
-    public GameObject Star;
-    public float StarSpawnCooldown;
-    private float StarSpawnTime;
-
     //Gameobjects and variables for the intro sequence
     [Header("Intro Sequence")]
     public GameObject InteriorBase;
@@ -103,7 +97,6 @@ public class TL_LevelManager : MonoBehaviour {
     private int RandomNumber;
     private TL_MovePC PCScript;
     private TL_PCShoot PCShootScript;
-    private TL_NPC_Attack NPCScript;
     private TL_ScoreManager ScoreManagerScript;
     private GameObject PC_Clone;
 
@@ -164,8 +157,6 @@ public class TL_LevelManager : MonoBehaviour {
                 StartGame();
             }
         }
-        //Generate stars
-        GenerateStars();
     }
 
     void IntroSequence()
@@ -299,25 +290,6 @@ public class TL_LevelManager : MonoBehaviour {
 
     }
 
-    void GenerateStars()
-    {
-        //If the spawn time is less than the time
-        if (StarSpawnTime < Time.time)
-        {
-            //Spawn the star
-            GameObject StarClone = Instantiate(Star, new Vector3(Random.Range(-8f, 8f), 6f, 1f), Quaternion.identity);
-
-            //Obtain the 2D Rigidbody component from the spawned gameobject
-            Rigidbody2D StarMovement = StarClone.GetComponent<Rigidbody2D>();
-
-            //Add force to the spawned gameobject
-            StarMovement.AddForce(Vector2.down * Random.Range(0.1f, 1f) * Time.deltaTime);
-
-            //Add the spawn time
-            StarSpawnTime = StarSpawnCooldown + Time.time;
-        }
-    }
-
     public void ResetGame()
     {
         //If the BGM is not playing
@@ -343,7 +315,6 @@ public class TL_LevelManager : MonoBehaviour {
         Seconds = 0;
         Increment = 0;
         SpawnTime = 0;
-        StarSpawnTime = 0;
         AdvanceLvlTime = 0;
         Pause = 2f;
         DisplayDuration = 2f;
